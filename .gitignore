@@ -2,6 +2,8 @@
 __pycache__/
 *.py[cod]
 *$py.class
+.venv
+config.py
 
 # C extensions
 *.so
@@ -150,6 +152,7 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+config.py
 
 # Pyre type checker
 .pyre/
