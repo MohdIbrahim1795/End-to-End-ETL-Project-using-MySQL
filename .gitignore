@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 .venv
 config.py
+mysql-connector-j-8.0.33.jar
 
 # C extensions
 *.so
@@ -152,7 +153,7 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
-config.py
+
 
 # Pyre type checker
 .pyre/

@@ -30,8 +30,8 @@ def create_table():
                 timestamp TIMESTAMP,
                 value INT,
                 category VARCHAR(10),
-                Usages DOUBLE DEFAULT NULL,
-                Outcome BOOLEAN DEFAULT NULL
+                Usages DOUBLE DEFAULT 0,
+                Outcome BOOLEAN DEFAULT FALSE
             )
         """)
 
@@ -57,13 +57,22 @@ def load_csv_to_mysql():
 
         # Combine old and new data
         combined_data = pd.concat([old_data, new_data], ignore_index=True)
+        combined_data.loc[:, 'Usages'] = combined_data['Usages'].fillna(0)
+        combined_data.loc[:, 'Outcome'] = combined_data['Outcome'].fillna(False)
+
 
         # Insert data into MySQL table
         for _, row in combined_data.iterrows():
             cursor.execute(f"""
-                INSERT INTO {config.SOURCE_TABLE} (timestamp, value, category, new_column1, new_column2)
+                INSERT INTO {config.SOURCE_TABLE} (timestamp, value, category, Usages, Outcome)
                 VALUES (%s, %s, %s, %s, %s)
-            """, (row['timestamp'], row['value'], row['category'], row.get('new_column1'), row.get('new_column2')))
+            """, (
+                row['timestamp'],
+                row['value'],
+                row['category'],
+                row.get('Usages', 0),  # Default to 0 if NaN
+                row.get('Outcome', False)  # Default to False if NaN
+            ))
 
         connection.commit()
         print(f"Data loaded into {config.SOURCE_TABLE} successfully!")
