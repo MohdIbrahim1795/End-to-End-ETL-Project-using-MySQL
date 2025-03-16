@@ -5,6 +5,8 @@ __pycache__/
 .venv
 config.py
 mysql-connector-j-8.0.33.jar
+new_data.csv
+old data.csv
 
 # C extensions
 *.so
